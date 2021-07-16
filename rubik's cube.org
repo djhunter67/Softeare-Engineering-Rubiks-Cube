@@ -1,0 +1,305 @@
+# -*- org-confirm-babel-evaluate: nil -*-
+#+AUTHOR: Christerpher Hunter
+#+EMAIL: djhunter67@gmail.com
+#+OPTIONS: toc:nil todo:nil  num:nil title:nil
+#+LATEX_HEADER:\usepackage{mathptmx}
+#+LATEX_HEADER: \usepackage[letterpaper,top=1in, bottom=1in, left=1.5in, right=1in]{geometry}
+#+LATEX_HEADER: \usepackage[round]{natbib}
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \doublespacing
+#+LATEX_HEADER:\pagenumbering{Roman}
+#+LATEX_HEADER:\usepackage{scrlayer-scrpage}
+
+\begin{titlepage}
+\begin{center}
+\vspace{2cm}
+{\huge  Rubikan \par}
+\vspace{2cm}
+by \par
+\vspace{0cm}
+{\Large Christerpher Hunter \par}
+\vfill
+Nova Southeaster University\\
+{\small \today  \par}
+\end{center}
+\end{titlepage}
+
+* Requirements
+
+** System Description
+
+The purpose of this software project is to be easy to use software application that allows users to solve a Rubik's Cube on a computer.  The application is named Rubikan.  A username will be required in order to track statistics.  This application will be accesed via a web browseror downloadable application.  This will be design and produced as an application that will then be published online.  This will be referred to as a cloud deployment.  This deployment method allows Rubikan to be accessed from any web connected browser capable device.  Rubikan will display a visually appealing GUI with color.  The Rubik's Cube presented will be the classic Rubik's Cube that was pattented in 1975.  Although, there are others there are presently no plans to further integrate shapes other than a cube. This application will reinforce intuitive notions of 3-D shapes.  Inherently, the manipulation of a rotating cube with rotating rows and columns will be a kin to a toy as it is a game and will entertain the user.  The complexity of the Rubik's Cube puzzle will be a brainteaser.\\
+Rubikan will be targeting ages five and up.  Testing new algorithms and storing them for later retrieval wil lbe featured.  The GUI will present the cube in color and accurately depict an actual cube.  The difference between a Rubik's cube in the hand and the one in the application will be naught.  Algorithmic theories can be practiced in the software then applied in reality.  Rubikan  will be able to rotate and reset the cube in its entirety. The reset will also randomize the cube.  There will also be a randomize button.  There will be a time attack feature that will countdown from a preset time down to zero.  Rubikan will also store every move made by the user and every time to complete or reset for each attempt to solve the cube.  A scoreboard of previous attempt will be able tp be toggled on and off.  The initial cube will be completed upon opening the application.\\
+The rows and columns will spin on an axle, similar to the actual Rubik's Cube.  In order to manipulate the column and rows each column or row, one at a time, will be selected.  If a column is selected, an option to rotate north or south wil be presented.  If a row is selected, the option to rotate the row east or west will be presented.  Three side of the cube will be visible at all times.  A compass will be displayed on the screen for the users not familiar with cardinal directions.  Lastly, a current score will be on screen during the attempt along with the time thus far.   If in time attack mode no score will be displayed.\\
+
+Now we will go through a uasge scenario.  The players include user 1, Patricia, and user 2, Jane.  Patricia is using a PC with the latest Microsoft operating system and Jane is using a popular distribution of Linux.  Patricia sits down and turns on her quad screen gaming pc.  Jane is using a laptop.  Patricia has opted for the downloadable application version of Rubikan.  Jane has done the same. After visting the an open source source control repository they are presented following list:
+: Rubikan.0.4.7.exe
+: Rubikan.0.4.7.sh
+: Rubikan.0.4.7.src
+The latest version available at the time of their download.  There were options to download the source code directly. This is  intended for pull request and issue testing.  An option to download a shell executable intended for use in a shell environment and an .exe executable for use in a Microsoft operating system.  The difference in starting the game in indistinguishable between the application version of different operating systems.  Once Rubikan starts it opens a GUI and presents the Rubik's cube, randomized, in three dimensions in the center of the appication window. In the upper right hand corner the names of previous users will be displayed.  If there are no previous user a blinking cursor will be standing by to be filled in.  There will be a RESET, START, and TIME ATTACK buttons in the lower right hand corner.  The TIME ATTACK button will not be highlighted unless there are previous timed attempts logged.  A compass, of an old fashioned nature, in the upper left hand corner and static.  Once the START button is actuated, the cube wil display buttons outside of each row and column.  Only one row or one column will be clickable at a time.  Once one row or one column is chosen the appropriate option to go east, west, north, or south will be displayed.  A timer will also begin once the attempt to solve begins, i.e. the START button.  There will be no time limit.  If the cube is solved the username and time to completion will be logged automatically.  If the reset is clicked before the puzzle is solved no time is logged and the cube is randomized.  The quit button lives, in red letters, in the lower right near the other buttons.  Once the cube is solved all the moves are also commited to that specific attempt to solve.  The known algorithms to solve the cube will also be available if the compass is clicked.  
+
+
+** Use Case
+
+- Present a GUI Rubik's Cube
+
+- Username required
+
+- Teach 3-D objects
+
+- Entertatain the user
+
+- Brain teaser
+
+- Test computer functionality
+
+- To be a toy
+
+- Rotate on screen
+
+- Present an appealing GUI
+
+-  Display colors on the cube
+
+  1.  Display white on one side of the cube
+
+  2.  Display yellow opposite of white on the cube
+
+  3.  Display blue on one side of the cube
+
+  4.  Display green on the opposite of the blue side of the cube
+
+  5.  Display orange on one side of the cube
+
+  6.  Display red on the opposite side of the orange side of the cube
+
+  7. Arrange in clockwise pattern: red, white, blue
+        
+-  Rotate the cube
+
+-  Reset the cube
+  - Mix up the colors via Reset Button
+
+-  Recall past times to completion
+
+-  Time attack
+
+- Compare times to other users of the application
+
+- Turn each column or row independently using internal pivot meachanism
+
+- Display a finished cube
+  - each face has a solid color
+
+- Present controls to manipulate cube
+  - select a row and choose to move east or west
+  - select a column and choose to move north or south
+
+- Display a compass on the screen
+
+-  Store solving algorithms
+
+- Display a score based on time to complete
+
+- Multi monitor support
+
+- Will work on any popular operating system
+
+
+** Exceptions
+- Rotating the cube in the GUI will prove difficult
+- Rotating the cub on an axis will be time consuming
+- Presenting a 3-D item will have to be researched
+- Is the application OS specific?
+- How will this application be deployed?
+- Will there be a charge to use the application?
+- Will this run on a phone?
+- Will this save information for later retrieval?
+- Will the states of the application conflict?
+- Time attack mode will be similar to the regular attempt mode. (Inheritance?)
+- How will Rubikan entertain the user?
+- What database will be employed?
+\newpage
+** Diagrams 
+
+- GUI Diagram
+#+BEGIN_SRC plantuml :file prac3.png
+
+        scale 600
+        !theme cerulean-outline
+
+      agent user1
+      node Rubikan{
+    database sqlite {
+       stack times 
+     stack users
+   stack algorithms
+  }
+      frame GUI{
+          entity Cube [
+        <b>Cube
+      ===
+    presented initially
+  as solved
+        ]
+
+        package buttons {
+            node start [
+          <b>START
+        ===
+          start timer from 0
+        ....
+      activates rows
+    and columns
+  ....
+        scramble colors
+          ] 
+           node reset  [
+          <b>RESET
+        ===
+          Cube scrambles colors
+        and resets timer
+          ] 
+            node TimeAttack [
+          <b>"Time Attack"
+        ===
+      countdown from
+    previous best
+  recorded time
+          ]
+                 node Compass [
+            <b>Compass
+          ===
+        displays cardinal directions
+      ....
+    contains known good
+  algorithms       
+              ]
+            }
+          }
+        }
+    user1 --> Rubikan : <color:black>open application</color> 
+    start <-->> users :  user name
+    start <-->> times : times
+    TimeAttack <-->> times : times
+    TimeAttack --> start
+    users <-->> times
+    Compass <-->> algorithms : algorithms
+
+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:prac3.png]]
+\newpage
+_Activity_ _Diagrams_
+- Start Button Diagram
+
+#+BEGIN_SRC plantuml :file prac4.png
+  :START BUTTON;
+
+       scale 600
+       !theme cerulean-outline
+
+  if (clicked) then (yes)
+   :cube is scrambled;
+      :timer count up from zero;
+      :record time to temp\nfile;
+          while (solved cube) is (no)                
+          endwhile (yes)
+          :initialize and open\ndatabase connection>
+          :send user name w/ \ntime to database;
+      else (no)
+      :do nothing;
+        endif
+  stop
+
+#+END_SRC
+
+#+RESULTS:
+[[file:prac4.png]]
+
+\newpage
+- Reset Button Diagram
+
+#+BEGIN_SRC plantuml :file prac5.png
+  :RESET BUTTON;
+
+       scale 600
+       !theme cerulean-outline
+
+  if (timer counting?) then (yes)
+      :cube is scrambled;
+      :timer reset to zero;              
+  else (no)
+    :do nothing;
+  endif
+
+  stop
+
+#+END_SRC
+\newpage
+- Time Attack Button
+
+#+BEGIN_SRC plantuml :file prac6.png
+  :TIME ATTACK BUTTON;
+
+      scale 600
+      !theme cerulean-outline
+
+  if (timer counting?) then (no)     
+      :initialize and open\n database connection>
+      :binary search for\n lowest completion\n time;
+      if (previous times) then (yes)
+         :initialize counter to\n ten seconds in\nred numbers;
+         :start game after ten\n second countdown;
+         while (win?) is (nil)            
+          endwhile (yes)
+          :initialize and open\ndatabase connection>
+          :commit time to database\n request username from\n start button temp file>            
+       else (no)
+       :showerror("no previous\ntimes entered");
+       stop
+       endif
+  else (yes)
+    :do nothing;
+  endif
+
+  stop
+
+#+END_SRC
+
+
+
+#+RESULTS:
+[[file:prac6.png]]
+  
+\newpage
+- Compass Button
+
+#+BEGIN_SRC plantuml :file prac7.png
+        scale 600
+        !theme cerulean-outline
+
+        :COMPASS BUTTON;
+
+        if (timer counting?) then (no)
+        while (clicked) is (no)
+        endwhile (yes)
+        :initialize and open\n database connection>
+        :display in a new window\n of known algorithms;
+      else (yes)
+      :do nothing;
+      endif
+  stop
+
+#+END_SRC
+
+#+RESULTS:
+[[file:prac7.png]]
+
+  
+
+
