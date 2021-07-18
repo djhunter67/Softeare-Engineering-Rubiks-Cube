@@ -1,0 +1,29 @@
+# -*- org-confirm-babel-evaluate: nil -*-
+#+AUTHOR: Christerpher Hunter
+#+EMAIL: djhunter67@gmail.com
+#+OPTIONS: toc:nil todo:nil  num:nil title:nil
+#+LATEX_HEADER:\usepackage{mathptmx}
+#+LATEX_HEADER: \usepackage[letterpaper,top=1in, bottom=1in, left=1.5in, right=1in]{geometry}
+#+LATEX_HEADER: \usepackage[round]{natbib}
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \doublespacing
+#+LATEX_HEADER:\pagenumbering{Roman}
+#+LATEX_HEADER:\usepackage{scrlayer-scrpage}
+
+\begin{titlepage}
+\begin{center}
+\vspace{2cm}
+{\huge  Rubikan Architecture \par}
+\vspace{2cm}
+by \par
+\vspace{0cm}
+{\Large Christerpher Hunter \par}
+\vfill
+Nova Southeaster University\\
+{\small \today  \par}
+\end{center}
+\end{titlepage}
+
+
+* Architecture
+

@@ -13,7 +13,7 @@
 \begin{titlepage}
 \begin{center}
 \vspace{2cm}
-{\huge  Rubikan \par}
+{\huge  Rubikan Requirements \par}
 \vspace{2cm}
 by \par
 \vspace{0cm}
@@ -28,7 +28,7 @@ Nova Southeaster University\\
 
 ** System Description
 
-The purpose of this software project is to be easy to use software application that allows users to solve a Rubik's Cube on a computer.  The application is named Rubikan.  A username will be required in order to track statistics.  This application will be accesed via a web browseror downloadable application.  This will be design and produced as an application that will then be published online.  This will be referred to as a cloud deployment.  This deployment method allows Rubikan to be accessed from any web connected browser capable device.  Rubikan will display a visually appealing GUI with color.  The Rubik's Cube presented will be the classic Rubik's Cube that was pattented in 1975.  Although, there are others there are presently no plans to further integrate shapes other than a cube. This application will reinforce intuitive notions of 3-D shapes.  Inherently, the manipulation of a rotating cube with rotating rows and columns will be a kin to a toy as it is a game and will entertain the user.  The complexity of the Rubik's Cube puzzle will be a brainteaser.\\
+The purpose of this software project is to be easy to use software application that allows users to solve a Rubik's Cube on a computer.  The application is named Rubikan.  A username will be required in order to track statistics.  This application will be accesed via a web browseror downloadable application.  This will be design and produced as an application that will then be published online.  This will be referred to as a cloud deployment.  This deployment method allows Rubikan to be accessed from any web connected browser capable device.  Rubikan will display a visually appealing GUI with color.  The Rubik's Cube presented will be the classic Rubik's Cube that was pattented in 1975 and is made of 26 individual cubes.  Although, there are others there are presently no plans to further integrate shapes other than a cube. This application will reinforce intuitive notions of 3-D shapes.  Inherently, the manipulation of a rotating cube with rotating rows and columns will be a kin to a toy as it is a game and will entertain the user.  The complexity of the Rubik's Cube puzzle will be a brainteaser.\\
 Rubikan will be targeting ages five and up.  Testing new algorithms and storing them for later retrieval wil lbe featured.  The GUI will present the cube in color and accurately depict an actual cube.  The difference between a Rubik's cube in the hand and the one in the application will be naught.  Algorithmic theories can be practiced in the software then applied in reality.  Rubikan  will be able to rotate and reset the cube in its entirety. The reset will also randomize the cube.  There will also be a randomize button.  There will be a time attack feature that will countdown from a preset time down to zero.  Rubikan will also store every move made by the user and every time to complete or reset for each attempt to solve the cube.  A scoreboard of previous attempt will be able tp be toggled on and off.  The initial cube will be completed upon opening the application.\\
 The rows and columns will spin on an axle, similar to the actual Rubik's Cube.  In order to manipulate the column and rows each column or row, one at a time, will be selected.  If a column is selected, an option to rotate north or south wil be presented.  If a row is selected, the option to rotate the row east or west will be presented.  Three side of the cube will be visible at all times.  A compass will be displayed on the screen for the users not familiar with cardinal directions.  Lastly, a current score will be on screen during the attempt along with the time thus far.   If in time attack mode no score will be displayed.\\
 
@@ -194,7 +194,7 @@ The latest version available at the time of their download.  There were options 
 #+RESULTS:
 [[file:prac3.png]]
 \newpage
-_Activity_ _Diagrams_
+
 - Start Button Diagram
 
 #+BEGIN_SRC plantuml :file prac4.png
@@ -210,7 +210,7 @@ _Activity_ _Diagrams_
           while (solved cube) is (no)                
           endwhile (yes)
           :initialize and open\ndatabase connection>
-          :send user name w/ \ntime to database;
+          :send user name & time to database>
       else (no)
       :do nothing;
         endif
