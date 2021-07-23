@@ -29,6 +29,28 @@ Nova Southeaster University\\
 
 I am using an Object-Oriented architecture that will contain four sections.  The first section includes the opening of the application.  The second section includes the main inteface of the application.  The third section includes the actions upon completing the game.  Finally, the last section includes database actions in all database scenarios and uses the Data-centered architecture.
 
+All classes used in this project:
+1. class Initialize
+2. class Username
+3. class Main
+4. class Cube
+5. class Reset
+6. class Restart
+7. class TimeAttack
+8. class Comparison
+9. class Selection
+10. class Rotate
+11. class Models
+12. class Controls
+13. class Compass
+14. class Scores
+15. class MultiMonitor
+16. class OSCheck
+17. class Completed
+18. class Quit
+19. class Timer
+20. class DataBase
+
 ** Startup
 
 #+BEGIN_SRC plantuml :file prac_architecture.png
@@ -184,23 +206,17 @@ I am using an Object-Oriented architecture that will contain four sections.  The
 
   frame "class Initialize" as f1
   frame "class Username" as f2
-  frame "class Reset" as f3
-  frame "class Restart" as f4
   frame "class TimeAttack" as f5
   frame "class Comparison" as f6
   frame "class Completed" as f7
-  frame "class Selection" as f8
   frame "class Compass" as f9
   frame "class Scores" as f10
 
       sqlite3 <-left-> f1
       sqlite3 <-right-> f2
-      sqlite3 <--> f3
-      sqlite3 <--> f4
       sqlite3 <--> f5
       sqlite3 <--> f6
       sqlite3 <-up-> f7
-      sqlite3 <-up-> f8
       sqlite3 <-up-> f9
       sqlite3 <-up-> f10
 

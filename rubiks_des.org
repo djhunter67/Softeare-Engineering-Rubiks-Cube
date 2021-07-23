@@ -26,3 +26,220 @@ Nova Southeaster University\\
 
 
 * Design
+
+** Startup
+
+#+BEGIN_SRC plantuml :file startup_design.png
+
+         scale 600
+
+   class Initialize {
+      -private OScheck 
+      -private user_name
+
+      --
+    
+      +present_GUI()
+      +get_OS()
+      }
+
+    class OSCheck {
+  +check_OS()
+  +check_num_displays()
+  }
+
+    class Username {
+    +prompt_username()
+    +show_username()
+  }
+
+        Initialize <--> OSCheck
+        Initialize <--> Username
+
+#+END_SRC
+
+#+RESULTS:
+[[file:startup_design.png]]
+
+\newpage
+** Standby State
+#+BEGIN_SRC plantuml :file main_design.png
+
+        scale 600
+        
+      package SplashScreen <<Node>> {
+        class Main {
+        +controls_GUI()
+        }
+        class Cube {}
+        class Username {}  
+        <> diamond
+      package Controls {
+      class Start {
+    -private get_state	 
+    ==
+    +start_game()
+      }
+      class TimeAttack {
+    -private get_state
+    #protected delay_time
+    ==
+       +check_for_times()
+       +start_timer()
+       +start_game()
+      }
+      class Compass {
+    -private card_directions
+    -private compass_img
+    -private get_state
+    ==      
+    +show_scores()
+    +show_algorithms()	
+      }
+      class Quit {
+    +exit_app()
+      }
+    }
+        }
+        package Models <<Database>>{
+        class DataBase {} 
+        }
+
+       Main -- diamond
+       diamond -- Start
+       diamond -- TimeAttack
+       diamond -- Compass
+       diamond -- Quit
+     hide @unlinked
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:main_design.png]]
+
+\newpage
+** Active State
+:LOGBOOK:
+CLOCK: [2021-07-20 Tue 21:55]--[2021-07-20 Tue 21:56] =>  0:01
+:END:
+#+BEGIN_SRC plantuml :file game_design.png
+
+        scale 600
+
+        package "Active Game" as AG {
+           class Start {
+           -private get_state	 
+           ==
+           +start_game()	
+           }
+           class Username {
+           +present_username()
+           }  
+           class Restart {}
+           class Reset {}
+               class Timer {}
+           class Selection {}
+           class Rotate {}
+           class Controls {}
+           class Quit {}
+                <> diamond
+  }
+           package Models <<Database>>{
+           class DataBase {} 
+           }
+
+    package "Won Game" as WG {
+           class Completed {}
+         }
+
+
+          Start . diamond
+          diamond - Selection
+          diamond --> DataBase
+          diamond --> Controls
+              diamond --> Restart
+          Controls <--> Rotate
+          Restart --> Reset
+            Timer --> diamond
+        Start <-- Username
+        AG +--> WG
+     Completed  --> DataBase
+   hide @unlinked
+
+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:game_design.png]]
+
+\newpage
+** Time-Attack State
+
+#+BEGIN_SRC plantuml :file time-attack_design.png
+
+     scale 600
+   package TimeAttackMode {
+   class TimeAttack {}
+       class Controls {}
+      class Selection {}
+    class Username {}
+        class Timer {}
+      class Rotate {}
+  class Quit {}
+     }
+       package Models <<Database>> {
+             class DataBase {}
+           }
+         package Won {
+          class Completed {}
+       }
+
+
+       TimeAttack <-- Username
+       TimeAttack <-- Timer
+       TimeAttack --> Controls
+       Controls --> Selection
+       Controls --> Rotate
+       Models --> TimeAttack
+       Timer --|> Quit
+       TimeAttackMode +---> Won
+     Won ---> Models
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:time-attack_architecture.png]]
+
+\newpage
+** Data-centered Architecture
+
+#+BEGIN_SRC plantuml :file data_design.png
+
+  scale 600
+  database "sqlite3" 
+
+  frame "class Initialize" as f1
+  frame "class Username" as f2
+  frame "class TimeAttack" as f5
+  frame "class Comparison" as f6
+  frame "class Completed" as f7
+  frame "class Compass" as f9
+  frame "class Scores" as f10
+
+      sqlite3 <-left-> f1
+      sqlite3 <-right-> f2
+      sqlite3 <--> f5
+      sqlite3 <--> f6
+      sqlite3 <-up-> f7
+      sqlite3 <-up-> f9
+      sqlite3 <-up-> f10
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:data_architecture.png]]
