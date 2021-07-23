@@ -62,6 +62,15 @@ Nova Southeaster University\\
 [[file:startup_design.png]]
 
 \newpage
+The purpose of the class Initialize is to launch the GUI window, get the username from the user (similar to an Arcade), and check the operating system.  The GUI window will present the Standby State presented in the next diagram.  The username function will prompt the user for a name to use when commiting scores.  The operating system check will get the name of the operating system and which distribution, if necessary.\\
+
+The intent of having a module to display the GUI before the module that contains the buttons and actions is due to the manner of implementation of the GUI operation.  The idea here is to set up the frame and backdrop for the application first and then load the features afterward.  This will allow future enhancement of the application to be simpler.  The Standby State will reside in waiting and then immediately load into the Initialization class without delay.  This is due to a fluid and manipulative design.\\
+
+The class Username is used in several places throughout the application in order to keep track of scores.  Each completed attempt will be coupled with a time and a username.  The username in, every instance, will be provided by class Username.  The class Username will prompt the user at the beginning of each launch of the application.  Another user, at any time during the Stanby State, can add a new username.  Upon the completion of a game, if there are two or more usernames, a confirmation prompt with the time and the username list will be shown.  The present user will need to choose, or optionally, enter a username; this is required to enter a winning time into the database.\\
+
+The class OSCheck is intended to get the name and version of the operating system from which the application launches.  Should the operating system come back as a Linux operating system the class OSCheck will then attain the specfic distribution.  The purpose of checking the operating is two fold.  Firstly, the class MultiMonitor will communicate to the class OSCheck to obtain the operating system; this is needed for the class MultiMonitor to function as expected.  Secondly, to appropriately display the application and its popups the manner in which frames are displayed must be ascertained and is directly related to the operating system the application launches from.\\
+
+\newpage
 ** Standby State
 #+BEGIN_SRC plantuml :file main_design.png
 
@@ -117,12 +126,15 @@ Nova Southeaster University\\
 
 #+RESULTS:
 [[file:main_design.png]]
+\newpage
+
+The splash screen serves as a template for which all non-timed activities are available and accomplishable.  The class Main has one method, controls_GUI(), that communicates with the Controls module.  In the Controls module there exists four control classes.  The class Compass is a clickable button that pops up a window displaying the previous times and username that reside in the database.  The class TimeAttack is similar to the start button in that it deactivates other buttons and moves the application from the Standby State to the Time-Attack State.  The class Start will initiate a normal game, deactivate other buttons, and move the application from the Standby State to the Active State.  The class Quit is design to exit the application at anytime during any state.\\
+
+The class Main has no variables or constants and one method.  The controls_GUI method calls any one of the selected classes presented in the Standby State to the user.  The class that is executed is the choice the user makes.  The options in the choice are Start, Time-Attack, Compass, and Quit.  
+
 
 \newpage
 ** Active State
-:LOGBOOK:
-CLOCK: [2021-07-20 Tue 21:55]--[2021-07-20 Tue 21:56] =>  0:01
-:END:
 #+BEGIN_SRC plantuml :file game_design.png
 
         scale 600
