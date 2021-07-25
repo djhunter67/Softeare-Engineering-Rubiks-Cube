@@ -34,8 +34,8 @@ Nova Southeaster University\\
          scale 600
 
    class Initialize {
-      -private OScheck 
-      -private user_name
+      -private OScheck: object 
+      -private user_name: string
 
       --
     
@@ -85,23 +85,23 @@ The class OSCheck is intended to get the name and version of the operating syste
         <> diamond
       package Controls {
       class Start {
-    -private get_state	 
+    -private get_state: string
     ==
     +start_game()
       }
       class TimeAttack {
-    -private get_state
-    #protected delay_time
+    -private get_state: string
+    #protected delay_time: float
     ==
        +check_for_times()
        +start_timer()
        +start_game()
       }
       class Compass {
-    -private card_directions
-    -private compass_img
-    -private get_state
-    ==      
+    -private card_directions: object
+    -private compass_img: any
+    -private get_state: string
+     
     +show_scores()
     +show_algorithms()	
       }
@@ -126,58 +126,93 @@ The class OSCheck is intended to get the name and version of the operating syste
 
 #+RESULTS:
 [[file:main_design.png]]
-\newpage
 
-The splash screen serves as a template for which all non-timed activities are available and accomplishable.  The class Main has one method, controls_GUI(), that communicates with the Controls module.  In the Controls module there exists four control classes.  The class Compass is a clickable button that pops up a window displaying the previous times and username that reside in the database.  The class TimeAttack is similar to the start button in that it deactivates other buttons and moves the application from the Standby State to the Time-Attack State.  The class Start will initiate a normal game, deactivate other buttons, and move the application from the Standby State to the Active State.  The class Quit is design to exit the application at anytime during any state.\\
-
-The class Main has no variables or constants and one method.  The controls_GUI method calls any one of the selected classes presented in the Standby State to the user.  The class that is executed is the choice the user makes.  The options in the choice are Start, Time-Attack, Compass, and Quit.  
+The splash screen serves as a template for which all non-timed activities are available and accomplishable.  The class Main has one method, the controls_ GUI, that communicates with the Controls module.  In the Controls module there exists four control classes.  The class Compass is a clickable button in the top left of the window that pops up another window displaying the previous times and username that reside in the database.  The class TimeAttack is similar to the start button in that it deactivates other buttons and moves the application from the Standby State to the Time-Attack State.  The class Start will initiate a normal game, deactivate other buttons, and move the application from the Standby State to the Active State.  The class Quit is design to exit the application at anytime during any state.\\
 
 
 \newpage
 ** Active State
 #+BEGIN_SRC plantuml :file game_design.png
 
-        scale 600
+         scale 600
 
-        package "Active Game" as AG {
-           class Start {
-           -private get_state	 
-           ==
-           +start_game()	
-           }
-           class Username {
-           +present_username()
-           }  
-           class Restart {}
-           class Reset {}
-               class Timer {}
-           class Selection {}
-           class Rotate {}
-           class Controls {}
-           class Quit {}
-                <> diamond
-  }
-           package Models <<Database>>{
-           class DataBase {} 
-           }
+         package "Active Game" as AG {
+            class Start {
+            -private get_username: string	 
+            ==
+                +check_if_name_in_db(username)
+            +start_game()	
+            }
+            class Username {
+	        ==
+            +present_username()
+            }  
+            class Restart {
+          +restart_session()
+            }
+            class Reset {
+          +turn_clock_to_zero()
+            }
+                class Timer {
+              -go: boolean
+                  -noGo: boolean
+            ==
+              +activate_clock()
+                  +activate_buttons()
+                }
+            class Selection {
+          -private north: object
+        -private south: object
+      -private east: object
+    -private west: object
+            }
+            class Rotate {
+          ==
+          +turn_entire_cube(cardinal_direction)
+            }
+            class Controls {
+          ==
+        +turn_individual_column(cardinal_direction)
+        +turn_individual_row(cardinal_direction)
+            }
+            class Quit {
+          ==
+        +exit_app()
+            }
+                 <> diamond
+   }
+            package Models <<Database>>{
+            class DataBase {
+          -private username: string
+        -private time_recoreded: float
+      ==
+    +table_entry(username, time)
+            } 
+            }
 
-    package "Won Game" as WG {
-           class Completed {}
-         }
-
-
-          Start . diamond
-          diamond - Selection
-          diamond --> DataBase
-          diamond --> Controls
-              diamond --> Restart
-          Controls <--> Rotate
-          Restart --> Reset
-            Timer --> diamond
-        Start <-- Username
-        AG +--> WG
-     Completed  --> DataBase
-   hide @unlinked
+     package "Won Game" as WG {
+            class Completed {
+          -private time: float
+        -private username: string
+      ==
+    +verify_user(username)
+  +send_to_db(username, time)
+                   +prompt_for_username()
+            }
+          }
+           Start . diamond
+           diamond - Selection
+           diamond --> DataBase
+           diamond --> Controls
+               diamond --> Restart
+           Controls <--> Rotate
+         Controls <-->Selection
+           Restart --> Reset
+             Timer --> diamond
+         Start <-- Username
+         AG +--> WG
+      Completed  --> DataBase
+    hide @unlinked
 
 
 
@@ -187,44 +222,89 @@ The class Main has no variables or constants and one method.  The controls_GUI m
 #+RESULTS:
 [[file:game_design.png]]
 
+The class Start is the main way to initiate the active state.  When the active state is initiated the class Start will prompt the class Username for the username of the present session.  The class Start will then check the database for a prior entry of the passed username.  If no username is entered a prompt for a username will be presented upon a succesful solving of the puzzle via the class Completed.  Once the class start is satisfied the class Timer initiates the clock to begin counting up from zero.  Upon initiation of the clock the class Controls is activated and the user will be able to manipulate the cube.  The class Controls take an object direction gathered by the class Selection when a user selects a column or a row on the graphical cube.  The class Controls is only able to roate columns or rows of the cube.  The class Rotate is solely responsible for rotating the entire cube.  The class Restart will represent a graphical button that is intended to reset the cube.  The class Resart automatically prompts the class Reset and will reset the clock.  If puzzle is solved, after any allowed amount of time, the class Completed will take in the time and username, with the appropriate username checks, and send that information to the class Database.
+
+
 \newpage
 ** Time-Attack State
 
 #+BEGIN_SRC plantuml :file time-attack_design.png
 
-     scale 600
-   package TimeAttackMode {
-   class TimeAttack {}
-       class Controls {}
-      class Selection {}
-    class Username {}
-        class Timer {}
-      class Rotate {}
-  class Quit {}
-     }
-       package Models <<Database>> {
-             class DataBase {}
-           }
-         package Won {
-          class Completed {}
+      scale 600
+    package TimeAttackMode {
+    class TimeAttack {
+  ==
+        +begin_time_attack_mode(present_state)
+        +check_db_for_time(username)
+    }
+        class Controls {
+        ==
+        +turn_individual_column(cardinal_direction)
+        +turn_individual_row(cardinal_direction)
+        }
+       class Selection {
+      -private north: object
+        -private south: object
+      -private east: object
+    -private west: object
        }
+     class Username {
+   ==
+   +present_username()
+     }
+         class Timer {
+        -go: boolean
+        -noGo: boolean
+        ==
+          +activate_clock()
+          +activate_buttons()
+         }
+       class Rotate {
+     ==
+          +turn_entire_cube(cardinal_direction)
+       }
+   class Quit {
+  ==
+  +exit_app()
+   }
+      }
+        package Models <<Database>> {
+              class DataBase {
+            -private username: string
+        -private time_recoreded: float
+      ==
+    +table_entry(username, time)
+              }
+            }
+          package Won {
+           class Completed {
+          -private time: float
+        -private username: string
+      ==
+      +verify_user(username)
+      +send_to_db(username, time)
+      +prompt_for_username()
+           }
+        }
 
 
-       TimeAttack <-- Username
-       TimeAttack <-- Timer
-       TimeAttack --> Controls
-       Controls --> Selection
-       Controls --> Rotate
-       Models --> TimeAttack
-       Timer --|> Quit
-       TimeAttackMode +---> Won
-     Won ---> Models
+        TimeAttack <-- Username
+        TimeAttack <-- Timer
+        TimeAttack --> Controls
+        Controls --> Selection
+        Controls --> Rotate
+        Models <--> TimeAttack
+        Timer --|> Quit
+        TimeAttackMode +--> Won
+      Won --> DataBase
 
 
 #+END_SRC
 
 #+RESULTS:
-[[file:time-attack_architecture.png]]
+[[file:time-attack_design.png]]
+
+The time-attack can only be activated from the standby state.  There are only two differences between the time-attack state and the active state.  First, the class TimeAttack checks the class Database for a time, given a username.  If there is no time associated with the username, from past attempts during the active state,  the time-attack state cannot be entered.  Second, the clock counts down instead of up.  The timer starts at the shortest previous completion time associated with the given username.  The purpose of this mode is to best the users previous best time.  Should the time-attack mode be completed successfully, the new time will be calculated and sent to the class DataBase.
 
 \newpage
 ** Data-centered Architecture
@@ -255,3 +335,5 @@ The class Main has no variables or constants and one method.  The controls_GUI m
 
 #+RESULTS:
 [[file:data_architecture.png]]
+
+The class DataBase 
