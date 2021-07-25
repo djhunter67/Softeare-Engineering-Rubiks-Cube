@@ -23,3 +23,360 @@ Nova Southeaster University\\
 {\small \today  \par}
 \end{center}
 \end{titlepage}
+
+* Testing
+
+** Startup
+
+#+BEGIN_SRC plantuml :file startup_testing.png
+
+    scale 600
+        allowmixing
+
+        package start_up {
+      class Initialize {
+      -private OScheck: object 
+      -private user_name: string
+
+      ==
+    
+        +present_GUI()
+        +get_OS()
+      }
+      class OSCheck {
+    ==
+    +check_OS()
+    +check_num_displays()
+      }
+      class Username {
+    ==
+           +prompt_username()
+      +show_username()
+      }
+        }
+
+      object Initialize_Tests {
+          test case 1: OS can present the GUI
+          test case 2: recieved username and OS 
+          }
+
+        object OSCheck_Tests {
+      test case 1: OS is supported
+      test case 2: there is at least one display
+          }
+
+        object Username_Tests {
+      test case 1: username was entered
+      test case 2: username is made up of letters only
+      test case 3: username is more than one letter
+      test case 4: username is less than 12 characters
+      }
+
+      Username_Tests -u-> Username
+      OSCheck_Tests -u-> OSCheck
+      Initialize_Tests -u-> Initialize
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:startup_testing.png]]
+
+
+The startup component is design to be the first procedure when the application is launched.  Class Testing is implemented on the Startup component in order to use a proven testing method.  Under Class Testing, test equivalence partitioning is employed in order to reduce the total number of tests.\\
+Each class will have its own testing group that is tailored, specifically, to each method and purpose of the class.  This behavior will be common throughout the testing section of the Rubikan application.  Classes repetatively used throughout the application will only be tested once.  All reused class are inherently performing similar functions in every instance of use.
+
+\newpage
+** Standby State
+
+#+BEGIN_SRC plantuml :file main_testing.png
+
+       scale 100 
+      'scale 800 height
+        allowmixing
+
+        package SplashScreen <<Node>> {
+        class Main {
+        +controls_GUI()
+        }
+        class Cube {
+       -private cube_colors_list
+       -private NUMBER_OF_CUBES
+   ==
+                 +rows()
+                     +columns()
+        }
+        class Username {}  
+
+    package Controls {
+    class Start {
+  -private get_state: string
+  ==
+  +start_game()
+    }
+    class TimeAttack {
+  -private get_state: string
+  #protected delay_time: float
+  ==
+     +check_for_times()
+     +start_timer()
+     +start_game()
+    }
+    class Compass {
+  -private card_directions: object
+  -private compass_img: any
+  -private get_state: string
+
+  +show_scores()
+  +show_algorithms()	
+    }
+    class Quit {
+  +exit_app()
+    }
+    }
+    }
+
+    object Main_Tests {
+    test case 1: ensure OS has been checked
+    test case 2: ensure class Controls is communicating
+    }
+    object Cube_Tests {
+    test case 1: 26 cubes
+    test case 2: six different colors
+    test case 3: six sided cube
+    }
+    object Controls_Tests {
+    test case 1: class Start is communicating
+    test case 2: class TimeAttack is communicating
+    test case 3: class Compass is communicating
+    test case 4: Standby screen is showing four buttons
+    }
+    object Start_Tests {
+    test case 1: the present state is Standby State
+    test case 2: the game is not alrteady started
+    test case 3: the timer is zeroed
+    }
+    object TimeAttack_Tests {
+    test case 1: the present state is the Standby state
+    test case 2: there is a username for the present state
+    test case 3: there are previously recorded completion times\nfor the given username
+    test case 4: the timer is zeroed
+    test case 5: database is up and standing by
+    }
+    object Compass_Tests {
+    test case 1:  there is an image to display
+    test case 2: database is up and standing by
+    test case 3: present state is the Standby state
+    }
+    object Quit_Tests {
+   test case 1: the application is up and running
+   test case 2: database connection is already closed
+    }
+
+    'Controls --[hidden] Main
+    'Controls --[hidden] Cube
+    Main <-d- Main_Tests
+    Cube <-d- Cube_Tests
+    Controls <-d- Controls_Tests
+    Start <-d- Start_Tests
+    TimeAttack <-d- TimeAttack_Tests
+    Compass <-d- Compass_Tests
+    Quit <-d- Quit_Tests
+    hide @unlinked
+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:main_testing.png]]
+
+
+
+\newpage
+** Active State
+#+BEGIN_SRC plantuml :file game_testing.png
+
+         scale 600
+
+         package "Active Game" as AG {
+            class Cube {
+                -private cube_colors_list
+                -private NUMBER_OF_CUBES
+   ==
+                 +rows()
+                     +columns()
+            }
+            class Start {
+            -private get_username: string	 
+            ==
+                +check_if_name_in_db(username)
+            +start_game()	
+            }
+            class Username {
+                ==
+            +present_username()
+            }  
+            class Restart {
+          +restart_session()
+            }
+            class Reset {
+          +turn_clock_to_zero()
+            }
+                class Timer {
+              -go: boolean
+                  -noGo: boolean
+            ==
+              +activate_clock()
+                  +activate_buttons()
+                }
+            class Selection {
+          -private north: object
+        -private south: object
+      -private east: object
+    -private west: object
+            }
+            class Rotate {
+          ==
+          +turn_entire_cube(cardinal_direction)
+            }
+            class Controls {
+          ==
+        +turn_individual_column(cardinal_direction)
+        +turn_individual_row(cardinal_direction)
+            }
+            class Quit {
+          ==
+        +exit_app()
+            }
+                 <> diamond
+   }
+           
+     package "Won Game" as WG {
+            class Completed {
+          -private time: float
+        -private username: string
+      ==
+    +verify_user(username)
+  +send_to_db(username, time)
+                   +prompt_for_username()
+            }
+          }
+     
+
+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:game_testing.png]]
+
+
+\newpage
+** Time-Attack State
+
+#+BEGIN_SRC plantuml :file time-attack_testing.png
+
+      scale 600
+
+    package TimeAttackMode {
+    class TimeAttack {
+  ==
+        +begin_time_attack_mode(present_state)
+        +check_db_for_time(username)
+    }
+        class Controls {
+        ==
+        +turn_individual_column(cardinal_direction)
+        +turn_individual_row(cardinal_direction)
+        }
+       class Selection {
+      -private north: object
+        -private south: object
+      -private east: object
+    -private west: object
+       }
+     class Username {
+   ==
+   +present_username()
+     }
+         class Timer {
+        -go: boolean
+        -noGo: boolean
+        ==
+          +activate_clock()
+          +activate_buttons()
+         }
+       class Rotate {
+     ==
+          +turn_entire_cube(cardinal_direction)
+       }
+   class Quit {
+  ==
+  +exit_app()
+   }
+      }
+
+       package Won {
+       class Completed {
+       -private time: float
+        -private username: string
+      ==
+      +verify_user(username)
+      +send_to_db(username, time)
+      +prompt_for_username()
+           }
+        }
+
+      Username --[hidden] Won
+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:time-attack_testing.png]]
+
+
+\newpage
+** Data-centered Architecture
+
+#+BEGIN_SRC plantuml :file data_testing.png
+
+    scale 600
+        allowmixing
+
+    database "sqlite3" 
+  
+   'package Models <<Database>>{
+    '        class DataBase {
+     '     -private username: string
+      '  -private time_recoreded: float
+      '==
+    '+table_entry(username, time)
+     '       } 
+      '      }
+
+	 
+    frame "class Initialize" as f1
+    frame "class Username" as f2
+    frame "class TimeAttack" as f5
+    frame "class Comparison" as f6
+    frame "class Completed" as f7
+    frame "class Compass" as f9
+    frame "class Scores" as f10
+
+        sqlite3 <-left-> f1
+        sqlite3 <-right-> f2
+        sqlite3 <--> f5
+        sqlite3 <--> f6
+        sqlite3 <-up-> f7
+        sqlite3 <-up-> f9
+        sqlite3 <-up-> f10
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:data_testing.png]]

@@ -80,7 +80,7 @@ The class OSCheck is intended to get the name and version of the operating syste
         class Main {
         +controls_GUI()
         }
-        class Cube {}
+        
         class Username {}  
         <> diamond
       package Controls {
@@ -137,6 +137,13 @@ The splash screen serves as a template for which all non-timed activities are av
          scale 600
 
          package "Active Game" as AG {
+            class Cube {
+                -private cube_colors_list
+                -private NUMBER_OF_CUBES
+   ==
+                 +rows()
+                     +columns()
+            }
             class Start {
             -private get_username: string	 
             ==
@@ -144,7 +151,7 @@ The splash screen serves as a template for which all non-timed activities are av
             +start_game()	
             }
             class Username {
-	        ==
+                ==
             +present_username()
             }  
             class Restart {
@@ -200,15 +207,16 @@ The splash screen serves as a template for which all non-timed activities are av
                    +prompt_for_username()
             }
           }
-           Start . diamond
+           Start .d. diamond
            diamond - Selection
            diamond --> DataBase
            diamond --> Controls
                diamond --> Restart
+	     diamond <--> Cube
            Controls <--> Rotate
          Controls <-->Selection
            Restart --> Reset
-             Timer --> diamond
+             Timer --r--> diamond
          Start <-- Username
          AG +--> WG
       Completed  --> DataBase
@@ -222,7 +230,7 @@ The splash screen serves as a template for which all non-timed activities are av
 #+RESULTS:
 [[file:game_design.png]]
 
-The class Start is the main way to initiate the active state.  When the active state is initiated the class Start will prompt the class Username for the username of the present session.  The class Start will then check the database for a prior entry of the passed username.  If no username is entered a prompt for a username will be presented upon a succesful solving of the puzzle via the class Completed.  Once the class start is satisfied the class Timer initiates the clock to begin counting up from zero.  Upon initiation of the clock the class Controls is activated and the user will be able to manipulate the cube.  The class Controls take an object direction gathered by the class Selection when a user selects a column or a row on the graphical cube.  The class Controls is only able to roate columns or rows of the cube.  The class Rotate is solely responsible for rotating the entire cube.  The class Restart will represent a graphical button that is intended to reset the cube.  The class Resart automatically prompts the class Reset and will reset the clock.  If puzzle is solved, after any allowed amount of time, the class Completed will take in the time and username, with the appropriate username checks, and send that information to the class Database.
+The class Start is the main way to initiate the active state.  When the active state is initiated the class Start will prompt the class Username for the username of the present session.  The class Start will then check the database for a prior entry of the passed username.  If no username is entered a prompt for a username will be presented upon a succesful solving of the puzzle via the class Completed.  Once the class Start requirements are satisfied the class Timer initiates the clock to begins counting up from zero.  Upon initiation of the clock the class Controls is activated and the user will be able to manipulate the cube via the class Cube.  The class Cube contains the rows and columns that are to be manipulated.  The class Controls take an object direction via the class Selection when a user selects a column or a row on the graphical cube.  The class Rotate is solely responsible for rotating the entire cube.  The class Restart will represent a graphical button that is intended to reset the cube.  The class Resart automatically prompts the class Reset and will reset the clock.  If puzzle is solved, after any allowed amount of time, the class Completed will take in the time and username, with the appropriate username checks, and send that information to the class Database.
 
 
 \newpage
@@ -304,7 +312,7 @@ The class Start is the main way to initiate the active state.  When the active s
 #+RESULTS:
 [[file:time-attack_design.png]]
 
-The time-attack can only be activated from the standby state.  There are only two differences between the time-attack state and the active state.  First, the class TimeAttack checks the class Database for a time, given a username.  If there is no time associated with the username, from past attempts during the active state,  the time-attack state cannot be entered.  Second, the clock counts down instead of up.  The timer starts at the shortest previous completion time associated with the given username.  The purpose of this mode is to best the users previous best time.  Should the time-attack mode be completed successfully, the new time will be calculated and sent to the class DataBase.
+The time-attack can only be activated from the standby state.  There are only two differences between the time-attack state and the active state.  First, the class TimeAttack checks the class Database for a time, given a username.  If there is no time associated with the username, from past attempts during the active state,  the time-attack state cannot be entered.  Second, the clock counts down instead of up.  The timer starts at the shortest previous completion time associated with the given username.  The purpose of this mode is to best the users previous best time.  Should the time-attack mode be completed successfully, the new time will be calculated and sent to the class DataBase.\\
 
 \newpage
 ** Data-centered Architecture
@@ -314,6 +322,7 @@ The time-attack can only be activated from the standby state.  There are only tw
   scale 600
   database "sqlite3" 
 
+	 
   frame "class Initialize" as f1
   frame "class Username" as f2
   frame "class TimeAttack" as f5
@@ -336,4 +345,4 @@ The time-attack can only be activated from the standby state.  There are only tw
 #+RESULTS:
 [[file:data_architecture.png]]
 
-The class DataBase 
+The class DataBase pictured above is shown with all the possible classes that will interact with the database.  The details of the database and its interactions throughout the application are emphasized where needed.
