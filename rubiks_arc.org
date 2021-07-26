@@ -27,7 +27,7 @@ Nova Southeaster University\\
 
 * Architecture
 
-I am using an Object-Oriented architecture that will contain four sections.  The first section includes the opening of the application.  The second section includes the main inteface of the application.  The third section includes the actions upon completing the game.  Finally, the last section includes database actions in all database scenarios and uses the Data-centered architecture.
+Employed will be an Object-Oriented architecture that will contain four sections.  The first section includes the opening of the application.  The second section includes the main interface of the application.  The third section includes the actions upon completing the game.  Finally, the last section includes database actions in all database scenarios and uses the Data-centered architecture.
 
 All classes used in this project:
 1. class Initialize
@@ -50,7 +50,7 @@ All classes used in this project:
 18. class Quit
 19. class Timer
 20. class DataBase
-
+    
 ** Startup
 
 #+BEGIN_SRC plantuml :file prac_architecture.png

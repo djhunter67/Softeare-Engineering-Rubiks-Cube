@@ -83,16 +83,16 @@ Nova Southeaster University\\
 [[file:startup_testing.png]]
 
 
-The startup component is design to be the first procedure when the application is launched.  Class Testing is implemented on the Startup component in order to use a proven testing method.  Under Class Testing, test equivalence partitioning is employed in order to reduce the total number of tests.\\
-Each class will have its own testing group that is tailored, specifically, to each method and purpose of the class.  This behavior will be common throughout the testing section of the Rubikan application.  Classes repetatively used throughout the application will only be tested once.  All reused class are inherently performing similar functions in every instance of use.
+The startup component is designed to be the first procedure when the application is launched.  Class Testing will be implemented throughout the application in order to use a proven testing method.  Under Class Testing, test equivalence partitioning is employed in order to reduce the total number of tests.\\
+Each class will have its own testing group that is tailored, specifically, to each method and purpose of the class.  This behavior will be common throughout the testing section of the Rubikan application.  Classes repetatively used throughout the application will only be tested once.  All reused classes are inherently performing similar functions in every instance of use.
 
 \newpage
 ** Standby State
 
 #+BEGIN_SRC plantuml :file main_testing.png
 
-       scale 100 
-      'scale 800 height
+       scale 600 width
+       scale 800 height
         allowmixing
 
         package SplashScreen <<Node>> {
@@ -197,73 +197,82 @@ Each class will have its own testing group that is tailored, specifically, to ea
 ** Active State
 #+BEGIN_SRC plantuml :file game_testing.png
 
-         scale 600
+          scale 600
+        allowmixing
 
-         package "Active Game" as AG {
-            class Cube {
-                -private cube_colors_list
-                -private NUMBER_OF_CUBES
-   ==
-                 +rows()
-                     +columns()
-            }
-            class Start {
-            -private get_username: string	 
-            ==
-                +check_if_name_in_db(username)
-            +start_game()	
-            }
-            class Username {
-                ==
-            +present_username()
-            }  
-            class Restart {
-          +restart_session()
-            }
-            class Reset {
-          +turn_clock_to_zero()
-            }
-                class Timer {
-              -go: boolean
-                  -noGo: boolean
-            ==
-              +activate_clock()
-                  +activate_buttons()
-                }
-            class Selection {
-          -private north: object
-        -private south: object
-      -private east: object
-    -private west: object
-            }
-            class Rotate {
-          ==
-          +turn_entire_cube(cardinal_direction)
-            }
-            class Controls {
-          ==
-        +turn_individual_column(cardinal_direction)
-        +turn_individual_row(cardinal_direction)
-            }
-            class Quit {
-          ==
-        +exit_app()
-            }
-                 <> diamond
-   }
-           
-     package "Won Game" as WG {
-            class Completed {
-          -private time: float
-        -private username: string
-      ==
-    +verify_user(username)
-  +send_to_db(username, time)
-                   +prompt_for_username()
-            }
-          }
-     
+          package "Active Game" as AG {
+             class Cube {
+                 -private cube_colors_list
+                 -private NUMBER_OF_CUBES
+    ==
+                  +rows()
+                      +columns()
+             }
+             class Start {
+             -private get_username: string	 
+             ==
+                 +check_if_name_in_db(username)
+             +start_game()	
+             }
+             class Username {
+                 ==
+             +present_username()
+             }  
+             class Restart {
+           +restart_session()
+             }
+             class Reset {
+           +turn_clock_to_zero()
+             }
+                 class Timer {
+               -go: boolean
+                   -noGo: boolean
+             ==
+               +activate_clock()
+                   +activate_buttons()
+                 }
+             class Selection {
+           -private north: object
+         -private south: object
+       -private east: object
+     -private west: object
+             }
+             class Rotate {
+           ==
+           +turn_entire_cube(cardinal_direction)
+             }
+             class Controls {
+           ==
+         +turn_individual_column(cardinal_direction)
+         +turn_individual_row(cardinal_direction)
+             }
+             class Quit {
+           ==
+         +exit_app()
+             }
+                  <> diamond
+    }
 
+      package "Won Game" as WG {
+             class Completed {
+           -private time: float
+         -private username: string
+       ==
+     +verify_user(username)
+   +send_to_db(username, time)
+                    +prompt_for_username()
+             }
+           }
+
+  object "Active State Testing" as AS {
+       test case 1: GUI and OS are compatible
+       test case 2: Timer is counting
+       test case 3: Controls are active
+       test case 4: Database communication has been established
+       test case 5:  No state conflicts
+       }
+
+     AS --> AG
 
 
 
@@ -279,8 +288,9 @@ Each class will have its own testing group that is tailored, specifically, to ea
 #+BEGIN_SRC plantuml :file time-attack_testing.png
 
       scale 600
+    allowmixing
 
-    package TimeAttackMode {
+    package TimeAttackMode as TAM {
     class TimeAttack {
   ==
         +begin_time_attack_mode(present_state)
@@ -329,8 +339,16 @@ Each class will have its own testing group that is tailored, specifically, to ea
            }
         }
 
-      Username --[hidden] Won
+      object "Time-Attack State" as TA {
+    test case 1: Username has previously completed times in database
+    test case 2: The previous state was Standby State
+    test case 3: Controls are active
+    test case 4: Database communication established
+    test case 5: timer is counting down
+    test case 6: delay timer is set
+      }
 
+    TA --> TAM
 
 
 #+END_SRC
@@ -348,7 +366,7 @@ Each class will have its own testing group that is tailored, specifically, to ea
         allowmixing
 
     database "sqlite3" 
-  
+
    'package Models <<Database>>{
     '        class DataBase {
      '     -private username: string
@@ -358,7 +376,7 @@ Each class will have its own testing group that is tailored, specifically, to ea
      '       } 
       '      }
 
-	 
+
     frame "class Initialize" as f1
     frame "class Username" as f2
     frame "class TimeAttack" as f5
@@ -367,6 +385,14 @@ Each class will have its own testing group that is tailored, specifically, to ea
     frame "class Compass" as f9
     frame "class Scores" as f10
 
+  object "Database Testing" as DBT {
+       test case 1: valid data
+       test case 2: data integrity
+       test case 3: DB performance
+       test case 4: triggers
+       test case5: DB functions
+       }
+
         sqlite3 <-left-> f1
         sqlite3 <-right-> f2
         sqlite3 <--> f5
@@ -374,6 +400,8 @@ Each class will have its own testing group that is tailored, specifically, to ea
         sqlite3 <-up-> f7
         sqlite3 <-up-> f9
         sqlite3 <-up-> f10
+
+      
 
 
 #+END_SRC
