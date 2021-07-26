@@ -147,7 +147,8 @@ There will be RESET, START, and TIME ATTACK buttons in the lower right-hand corn
 - GUI Diagram
 #+BEGIN_SRC plantuml :file prac3.png
 
-        scale 600
+        scale 600 height
+        scale 600 width
         !theme cerulean-outline
 
       agent user1
